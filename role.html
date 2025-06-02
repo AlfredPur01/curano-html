@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Select User Role</title>
+    <link rel="stylesheet" href="./style/role.css"> <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body class="select-role-body">
+
+    <div class="select-role-modal">
+        <div class="modal-icon">
+            <i class="fas fa-user-circle"></i>
+        </div>
+        <h2 class="modal-title">Select user</h2>
+        
+        <div class="role-options" id="roleOptions">
+            <div class="role-option">
+                <label for="superAdmin">Super admin</label>
+                <input type="checkbox" id="superAdmin" name="role" value="superAdmin" checked>
+            </div>
+            <div class="role-option">
+                <label for="admin">Admin</label>
+                <input type="checkbox" id="admin" name="role" value="admin">
+            </div>
+            <div class="role-option">
+                <label for="doctors">Doctors</label>
+                <input type="checkbox" id="doctors" name="role" value="doctors">
+            </div>
+            <div class="role-option">
+                <label for="researcher">Researcher</label>
+                <input type="checkbox" id="researcher" name="role" value="researcher">
+            </div>
+        </div>
+        
+        <button class="proceed-button" id="proceedButton">Proceed</button>
+        <p id="roleMessage" class="message-display" style="text-align: center; margin-top:15px;"></p>
+    </div>
+
+    <script src="./script/role.js"></script>
+</body>
+</html>

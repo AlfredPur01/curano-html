@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curano - Sign Up</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: #f8f9fa;
+        }
+
+        .main-container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px; /* Adjust as needed */
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            min-height: 700px; /* Ensure sufficient height */
+        }
+
+        /* Left Panel (now with background and testimonials) */
+        .left-panel {
+            flex: 1;
+            background-size: cover;
+            background-position: center;
+            color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 40px;
+            position: relative;
+            transition: background-image 1s ease-in-out; /* Smooth transition for background */
+            min-height: 700px; /* Ensure sufficient height */
+        }
+
+        .left-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.4); /* Dark overlay */
+            border-radius: 15px; /* Apply border-radius to the overlay too */
+        }
+
+        .left-panel-content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        /* Right Panel (now with signup form) */
+        .right-panel {
+            flex: 1;
+            padding: 40px;
+            background-color: #fff;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .logo-curano {
+            font-family: 'Monoton', cursive;
+            font-size: 2.5rem;
+            color: #fff; /* White logo for the left panel */
+            margin-bottom: 30px;
+            position: absolute; /* Position absolutely within the left panel */
+            top: 40px;
+            left: 40px;
+            z-index: 2; /* Ensure it's above the overlay */
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        .form-control {
+            border-radius: 8px;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            background-color: #f0f2f5; /* Light grey background for inputs */
+        }
+
+        .btn-signup {
+            background-color: #28a745; /* Green button */
+            color: #fff;
+            padding: 12px 0;
+            border-radius: 8px;
+            font-weight: bold;
+            width: 100%;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-signup:hover {
+            background-color: #218838;
+        }
+
+        .social-login {
+            margin-top: 20px;
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: #f0f2f5;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: #333;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .social-icon:hover {
+            background-color: #e0e2e5;
+        }
+
+        .testimonial-card {
+            background-color: rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: left;
+            backdrop-filter: blur(5px); /* Optional: blur effect for glassmorphism */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            animation: fadeIn 1s ease-in-out; /* Fade in animation for testimonials */
+        }
+
+        .testimonial-card .author {
+            display: flex;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .testimonial-card .author img {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            margin-right: 15px;
+            border: 2px solid #fff;
+        }
+
+        .testimonial-dots {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .dot {
+            width: 10px;
+            height: 10px;
+            background-color: rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .dot.active {
+            background-color: #fff;
+        }
+
+        .alert-message {
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            text-align: center;
+            width: 100%;
+        }
+        .alert-success {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .alert-danger {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 992px) {
+            .main-container {
+                flex-direction: column;
+                min-height: auto;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+                padding: 30px;
+                min-height: 500px; /* Adjust height for smaller screens */
+            }
+            .left-panel {
+                border-radius: 15px 15px 0 0; /* Adjust border-radius for top panel */
+            }
+            .right-panel {
+                border-radius: 0 0 15px 15px; /* Adjust border-radius for bottom panel */
+            }
+            .logo-curano {
+                top: 20px;
+                left: 20px;
+                font-size: 2rem;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .left-panel, .right-panel {
+                padding: 20px;
+            }
+            .logo-curano {
+                font-size: 1.8rem;
+            }
+            .testimonial-card {
+                padding: 20px;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="main-container">
+        <div class="left-panel" id="leftPanel">
+            <span class="logo-curano">CURANO</span>
+            <div class="left-panel-content">
+                <h1 class="display-4 fw-bold mb-3">Welcome</h1>
+                <p class="lead mb-4">Welcome to your centralized hub for cancer case documentation, live tumor board collaboration, and AI-assisted clinical decision.</p>
+
+                <div class="testimonial-card" id="testimonialCard">
+                    </div>
+
+                <div class="testimonial-dots" id="testimonialDots">
+                    </div>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="w-100" style="max-width: 400px;">
+                <h2 class="text-center mb-4">Create your account</h2>
+                <p class="text-center text-muted mb-4">Create your account/login an existing account with your correct details.</p>
+
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="fullName" class="form-label visually-hidden">Name</label>
+                        <input type="text" class="form-control" id="fullName" placeholder="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hospitalName" class="form-label visually-hidden">Hospital name</label>
+                        <input type="text" class="form-control" id="hospitalName" placeholder="Hospital name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailAddress" class="form-label visually-hidden">Email address</label>
+                        <input type="email" class="form-control" id="emailAddress" placeholder="Email address" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="createPassword" class="form-label visually-hidden">Create password</label>
+                        <input type="password" class="form-control" id="createPassword" placeholder="Create password" required>
+                    </div>
+
+                    <div class="form-check mb-4">
+                        <input class="form-check-input rounded-0" type="checkbox" value="" id="agreeTerms" required>
+                        <label class="form-check-label" for="agreeTerms">
+                            Agree to terms and condition
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-signup">Sign up</button>
+                    <div id="formMessage" class="alert-message mt-3" style="display: none;"></div>
+
+                    <p class="text-center text-muted my-4">or sign up with</p>
+
+                    <div class="d-flex justify-content-center social-login">
+                        <div class="social-icon"><i class="fab fa-apple"></i></div>
+                        <div class="social-icon"><i class="fab fa-google"></i></div>
+                    </div>
+
+                    <p class="text-center mt-4">Already have an account? <a href="login.html" class="text-decoration-none text-success">Login</a></p>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const leftPanel = document.getElementById('leftPanel');
+            const testimonialCard = document.getElementById('testimonialCard');
+            const testimonialDots = document.getElementById('testimonialDots');
+            const signupForm = document.getElementById('signupForm');
+            const formMessage = document.getElementById('formMessage');
+
+            // Testimonial data with corresponding background images
+            const testimonials = [
+                {
+                    text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation",
+                    author: "Dr Marcus Orns",
+                    role: "Surgeon",
+                    image: "./img/Pexels Photo by Andrea Piacquadio.png", // Placeholder for author image
+                    bg: "./img/Pexels Photo by Oles kanebckuu.png" // Dark blue/grey
+                },
+                {
+                    text: "Curano has revolutionized our tumor board meetings, making collaboration seamless and decision-making more efficient. Highly recommended!",
+                    author: "Dr. Emily White",
+                    role: "Oncologist",
+                    image: "./img/Pexels Photo by Andrea Piacquadio.png",
+                    bg: "./img/Pexels Photo by Antoni Shkraba Studio.png" // Slightly lighter dark blue/grey
+                },
+                {
+                    text: "The AI-assisted clinical decision support is a game-changer. It provides valuable insights that significantly enhance patient care.",
+                    author: "Prof. David Lee",
+                    role: "Radiologist",
+                    image: "./img/Pexels Photo by Andrea Piacquadio.png",
+                    bg: "./img/Pexels Photo by Anna Shvets.png" // Teal
+                }
+            ];
+
+            let currentTestimonialIndex = 0;
+
+            // Function to update testimonial content and background
+            function updateTestimonial() {
+                const testimonial = testimonials[currentTestimonialIndex];
+
+                // Update testimonial card content
+                testimonialCard.innerHTML = `
+                    <p class="mb-3">${testimonial.text}</p>
+                    <div class="author">
+                        <img src="${testimonial.image}" alt="${testimonial.author}">
+                        <div>
+                            <p class="fw-bold mb-0">${testimonial.author}</p>
+                            <small>${testimonial.role}</small>
+                        </div>
+                    </div>
+                `;
+
+                // Update background image of the left panel
+                leftPanel.style.backgroundImage = `url('${testimonial.bg}')`;
+
+                // Update active dot
+                updateDots();
+            }
+
+            // Function to create and update testimonial dots
+            function updateDots() {
+                testimonialDots.innerHTML = ''; // Clear existing dots
+                testimonials.forEach((_, index) => {
+                    const dot = document.createElement('div');
+                    dot.classList.add('dot');
+                    if (index === currentTestimonialIndex) {
+                        dot.classList.add('active');
+                    }
+                    dot.addEventListener('click', () => {
+                        currentTestimonialIndex = index;
+                        updateTestimonial();
+                    });
+                    testimonialDots.appendChild(dot);
+                });
+            }
+
+            // Initialize first testimonial and dots
+            updateTestimonial();
+            updateDots();
+
+            // Auto-slide functionality
+            setInterval(() => {
+                currentTestimonialIndex = (currentTestimonialIndex + 1) % testimonials.length;
+                updateTestimonial();
+            }, 5000); // Change testimonial every 5 seconds
+
+            // Form validation and local storage
+            signupForm.addEventListener('submit', (event) => {
+                event.preventDefault(); // Prevent default form submission
+
+                const fullName = document.getElementById('fullName').value.trim();
+                const hospitalName = document.getElementById('hospitalName').value.trim();
+                const emailAddress = document.getElementById('emailAddress').value.trim();
+                const createPassword = document.getElementById('createPassword').value.trim();
+                const agreeTerms = document.getElementById('agreeTerms').checked;
+
+                let isValid = true;
+                let message = '';
+
+                // Basic validation
+                if (fullName === '') {
+                    isValid = false;
+                    message = 'Name is required.';
+                } else if (hospitalName === '') {
+                    isValid = false;
+                    message = 'Hospital name is required.';
+                } else if (emailAddress === '') {
+                    isValid = false;
+                    message = 'Email address is required.';
+                } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailAddress)) {
+                    isValid = false;
+                    message = 'Please enter a valid email address.';
+                } else if (createPassword === '') {
+                    isValid = false;
+                    message = 'Password is required.';
+                } else if (createPassword.length < 6) {
+                    isValid = false;
+                    message = 'Password must be at least 6 characters long.';
+                } else if (!agreeTerms) {
+                    isValid = false;
+                    message = 'You must agree to the terms and conditions.';
+                }
+
+                formMessage.style.display = 'block';
+                if (isValid) {
+                    // Store details in local storage (including email for verification page)
+                    const signupDetails = {
+                        fullName: fullName,
+                        hospitalName: hospitalName,
+                        emailAddress: emailAddress,
+                        // IMPORTANT: In a real application, NEVER store plain passwords in local storage.
+                        // Passwords should be hashed and securely sent to a server for authentication.
+                        password: createPassword
+                    };
+                    localStorage.setItem('signupUserDetails', JSON.stringify(signupDetails));
+                    localStorage.setItem('verificationEmail', emailAddress); // Store email for verification page
+
+                    formMessage.classList.remove('alert-danger');
+                    formMessage.classList.add('alert-success');
+                    formMessage.textContent = 'Account created successfully! Redirecting to verification...';
+
+                    // Redirect to email-verification.html after a short delay
+                    setTimeout(() => {
+                        window.location.href = 'verification.html';
+                    }, 1500); // 1.5 second delay before redirect
+                } else {
+                    formMessage.classList.remove('alert-success');
+                    formMessage.classList.add('alert-danger');
+                    formMessage.textContent = message;
+                }
+            });
+        });
+    </script>
+</body>
+</html>

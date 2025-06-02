@@ -1,0 +1,433 @@
+/* Reset and base styles from original */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    /* height: 100vh; -- Handled by Bootstrap grid container */
+    /* overflow: hidden; -- Allow scroll on mobile */
+}
+
+.main-container-bs { /* Class for the Bootstrap container-fluid */
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.left-section {
+    /* flex: 1; -- Handled by col-lg-7 */
+    background-size: cover;
+    background-position: center;
+    position: relative; /* For ::before overlay */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    color: white;
+    transition: background-image 0.7s ease-in-out;
+    min-height: 100vh; /* Ensure full height on large screens */
+}
+
+.left-section::before { /* Dark overlay */
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(40, 60, 80, 0.85), rgba(20, 40, 60, 0.75));
+    z-index: 1; /* Ensure it's below content but above background image */
+}
+
+.left-content {
+    position: relative;
+    z-index: 2; /* Above the overlay */
+}
+
+.logo {
+    font-family: 'Monoton', cursive;
+    font-size: 2.5rem;
+    margin-bottom: 4rem;
+    letter-spacing: 0.2em;
+    color: #ffffff;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+}
+
+.welcome-title {
+    font-size: clamp(2.5rem, 6vw, 4rem); /* Responsive font size */
+    font-weight: 700;
+    margin-bottom: 2rem;
+    line-height: 1.1;
+}
+
+.welcome-subtitle {
+    font-size: clamp(1rem, 2.5vw, 1.3rem); /* Responsive font size */
+    font-weight: 400;
+    line-height: 1.6;
+    margin-bottom: 3rem;
+    opacity: 0.95;
+    max-width: 600px;
+}
+
+.testimonial-container {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 30px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    position: relative;
+    max-width: 450px; /* Adjusted max-width */
+    min-height: 220px; /* Give some consistent height */
+    display: flex; /* To help align content if needed */
+    flex-direction: column;
+    justify-content: center;
+}
+
+.testimonial-slide {
+    display: none;
+    animation: fadeIn 0.6s ease-in-out;
+}
+
+.testimonial-slide.active {
+    display: block;
+}
+
+.testimonial-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.author-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: linear-gradient(45deg, #20c997, #0dcaf0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-weight: 600;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+.author-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.author-info h6 {
+    margin: 0;
+    font-weight: 600;
+    font-size: 0.95rem;
+}
+
+.author-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.testimonial-dots {
+    display: flex;
+    justify-content: flex-start; /* Align to start as per design */
+    gap: 10px;
+    margin-top: 25px;
+    padding-left: 5px; /* Minor offset if needed */
+}
+
+.dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.4);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.dot.active {
+    background: #20c997; /* Teal color from design */
+    transform: scale(1.2);
+}
+
+.right-section {
+    /* flex: 1; -- Handled by col-lg-5 */
+    background: #f8f9fa; /* Light background for form side */
+    padding: 40px; /* Reduced padding slightly for better balance */
+    min-height: 100vh; /* Ensure full height on large screens */
+}
+
+.signup-container {
+    width: 100%;
+    max-width: 450px;
+}
+
+.signup-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #2c3e50;
+    margin-bottom: 0.5rem;
+    text-align: left; /* Original design has left-aligned title */
+}
+
+.signup-subtitle {
+    color: #6c757d;
+    text-align: left; /* Original design has left-aligned subtitle */
+    margin-bottom: 2.5rem;
+    font-size: 0.95rem;
+}
+
+.form-group {
+    margin-bottom: 1.25rem; /* Consistent spacing */
+}
+
+.form-control { /* Bootstrap class, but we can enhance */
+    border: 1px solid #dee2e6;
+    border-radius: 8px; /* Slightly less rounded */
+    padding: 12px 18px;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    background: #fff; /* Cleaner background */
+}
+
+.form-control:focus {
+    border-color: #20c997; /* Teal color */
+    box-shadow: 0 0 0 0.2rem rgba(32, 201, 151, 0.15);
+    background: white;
+}
+
+/* Bootstrap validation states styling */
+.form-control.is-invalid {
+    border-color: #dc3545; /* Bootstrap danger color */
+}
+.form-control.is-invalid:focus {
+    box-shadow: 0 0 0 0.2rem rgba(220, 53, 69, 0.25);
+}
+.invalid-feedback {
+    display: none; /* Ensure it's hidden by default */
+    width: 100%;
+    margin-top: .25rem;
+    font-size: .875em;
+    color: #dc3545;
+}
+.form-control.is-invalid ~ .invalid-feedback,
+input[type="checkbox"].is-invalid ~ .invalid-feedback {
+    display: block;
+}
+
+
+.password-wrapper {
+    position: relative;
+}
+
+.password-toggle {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: none;
+    border: none;
+    color: #6c757d;
+    cursor: pointer;
+    font-size: 1.1rem;
+    padding: 0; /* Remove padding */
+}
+
+.terms-checkbox {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.5rem; /* Consistent spacing */
+}
+
+.custom-checkbox { /* Visual part of the checkbox */
+    width: 20px;
+    height: 20px;
+    border: 2px solid #adb5bd; /* Neutral border */
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: #fff;
+    flex-shrink: 0;
+}
+
+.custom-checkbox.checked {
+    background: #20c997; /* Teal color */
+    border-color: #20c997;
+    color: white;
+}
+input[type="checkbox"].is-invalid ~ .custom-checkbox { /* Style if checkbox is invalid */
+    border-color: #dc3545;
+}
+
+.terms-text {
+    font-size: 0.9rem;
+    color: #495057; /* Darker text */
+    margin-bottom: 0; /* Remove bottom margin from label */
+}
+
+.terms-link {
+    color: #20c997; /* Teal color */
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.terms-link:hover {
+    text-decoration: underline;
+}
+
+.signup-btn {
+    width: 100%;
+    background: #20c997; /* Teal color */
+    border: none;
+    border-radius: 8px;
+    padding: 14px;
+    color: white;
+    font-weight: 600;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    margin-bottom: 1.5rem;
+}
+
+.signup-btn:hover:not(:disabled) {
+    background: #1aa085; /* Darker teal */
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(32, 201, 151, 0.25);
+}
+
+.signup-btn:disabled {
+    background: #ced4da; /* Lighter gray for disabled */
+    color: #6c757d;
+    cursor: not-allowed;
+}
+
+.divider {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.social-buttons {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 2rem;
+}
+
+.social-btn {
+    flex: 1;
+    padding: 12px;
+    border: 1px solid #dee2e6; /* Standard border */
+    background: white;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: #495057;
+}
+
+.social-btn:hover {
+    border-color: #20c997; /* Teal color */
+    color: #20c997;
+    transform: translateY(-2px);
+}
+
+.login-link {
+    text-align: center;
+    font-size: 0.95rem;
+    color: #6c757d;
+}
+
+.login-link a {
+    color: #20c997; /* Teal color */
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.login-link a:hover {
+    text-decoration: underline;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Responsive adjustments */
+@media (max-width: 991.98px) { /* lg breakpoint */
+    .left-section {
+        min-height: 50vh; /* Adjust height for stacked layout */
+        padding: 40px 30px;
+    }
+    .right-section {
+        min-height: auto; /* Allow natural height */
+        padding: 40px 30px;
+    }
+    .welcome-title {
+        font-size: 2.8rem;
+    }
+    .welcome-subtitle {
+        font-size: 1.1rem;
+    }
+    .testimonial-container {
+        max-width: none; /* Full width within its padding */
+        min-height: auto; /* Adjust height */
+    }
+}
+
+@media (max-width: 767.98px) { /* md breakpoint */
+     .main-container-bs {
+        height: auto;
+        overflow-y: auto; /* Allow scrolling on mobile */
+    }
+    .left-section {
+        min-height: auto; /* Further adjust for smaller screens or specific content height */
+        padding: 30px 20px;
+    }
+    .logo {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+        text-align: center;
+    }
+    .welcome-title, .welcome-subtitle {
+        text-align: center;
+    }
+    .testimonial-dots {
+        justify-content: center;
+    }
+    .right-section {
+        padding: 30px 20px;
+    }
+     .signup-title, .signup-subtitle {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .social-buttons {
+        flex-direction: column;
+    }
+    .welcome-title {
+        font-size: 2.2rem;
+    }
+    .form-control, .signup-btn, .social-btn {
+        padding: 12px; /* Adjust padding for smaller screens */
+        font-size: 0.9rem;
+    }
+}

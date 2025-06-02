@@ -1,0 +1,214 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #004d40; /* Dark teal base */
+    background-image: 
+        radial-gradient(circle at top left, rgba(76, 175, 80, 0.2), transparent 40%),
+        radial-gradient(circle at bottom right, rgba(0, 150, 136, 0.2), transparent 40%);
+    color: #e0e0e0;
+    display: flex;
+    flex-direction: column; /* To position logo and then verification box */
+    align-items: center;
+    justify-content: flex-start; /* Align items to the start for logo then box */
+    min-height: 100vh;
+    padding-top: 40px; /* Space for logo */
+    box-sizing: border-box;
+    overflow-x: hidden;
+}
+
+.logo-container {
+    position: absolute;
+    top: 40px;
+    left: 40px;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    letter-spacing: 2px;
+}
+
+.verification-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    flex-grow: 1; /* Allows it to take remaining space and center content vertically */
+    padding: 20px;
+}
+
+.verification-box {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(15px) saturate(120%);
+    -webkit-backdrop-filter: blur(15px) saturate(120%);
+    border-radius: 20px;
+    padding: 35px 45px;
+    width: 100%;
+    max-width: 480px;
+    text-align: center;
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.verification-box h2 {
+    color: #ffffff;
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.instruction-text {
+    font-size: 0.95rem;
+    color: rgba(224, 224, 224, 0.9);
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.email-address {
+    font-weight: 500;
+    color: #fafafa;
+}
+
+.otp-inputs {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 25px;
+}
+
+.otp-input {
+    width: 45px;
+    height: 50px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: #ffffff;
+    background-color: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 8px;
+    outline: none;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    caret-color: #00e676; /* Bright green caret */
+}
+
+.otp-input:focus {
+    border-color: #00e676; /* Bright green */
+    box-shadow: 0 0 0 3px rgba(0, 230, 118, 0.3);
+}
+
+/* Remove arrows for number input if you were to use type="number" */
+.otp-input::-webkit-outer-spin-button,
+.otp-input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+.otp-input[type=number] {
+    -moz-appearance: textfield;
+}
+
+
+.timer-resend-container {
+    margin-bottom: 30px;
+}
+
+.timer {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffab40; /* Amber/Orange for timer */
+    display: block;
+    margin-bottom: 8px;
+}
+
+.resend-text {
+    font-size: 0.9rem;
+    color: rgba(224, 224, 224, 0.8);
+}
+
+.resend-text a {
+    color: #ff8a65; /* Light orange/coral for link */
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+}
+
+.resend-text a:hover:not(.disabled-link) {
+    color: #ffab40;
+    text-decoration: underline;
+}
+
+.resend-text a.disabled-link {
+    color: rgba(224, 224, 224, 0.5);
+    cursor: not-allowed;
+    pointer-events: none; /* Ensures it's not clickable */
+}
+
+
+.verify-button {
+    width: 100%;
+    padding: 14px;
+    background-color: #00796b; /* Darker teal from button in image */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    margin-bottom: 15px;
+}
+
+.verify-button:hover {
+    background-color: #00695c;
+    transform: translateY(-2px);
+}
+
+.verify-button:active {
+    transform: translateY(0);
+}
+
+.message-display {
+    margin-top: 15px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    min-height: 20px; /* Reserve space */
+}
+
+.message-display.success {
+    color: #69f0ae; /* Light green for success */
+}
+
+.message-display.error {
+    color: #ff8a80; /* Light red for error */
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .logo-container {
+        position: static; /* Make logo part of the flow */
+        text-align: center;
+        margin-bottom: 30px;
+        padding-top: 0;
+    }
+    body {
+        padding-top: 20px; /* Adjust if logo is static */
+        justify-content: center; /* Center everything if logo is static */
+    }
+    .verification-box {
+        padding: 25px 20px;
+        margin: 0 15px;
+    }
+    .verification-box h2 {
+        font-size: 1.4rem;
+    }
+    .instruction-text {
+        font-size: 0.9rem;
+    }
+    .otp-input {
+        width: 38px; /* Slightly smaller */
+        height: 45px;
+        font-size: 1.3rem;
+    }
+    .otp-inputs {
+        gap: 6px; /* Reduce gap */
+    }
+}

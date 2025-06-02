@@ -1,0 +1,158 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+*/
+
+/* Body for select-role page - similar dark theme */
+.select-role-body {
+    margin: 0;
+    font-family: 'Poppins', sans-serif;
+    background-color: #003830; /* Slightly different shade or same as OTP page's body */
+    background-image: 
+        radial-gradient(circle at center, rgba(0, 77, 64, 0.5), transparent 70%);
+    color: #e0e0e0;
+    display: flex;
+    align-items: center; /* Vertically center */
+    justify-content: center; /* Horizontally center */
+    min-height: 100vh;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.select-role-modal {
+    background: rgba(255, 255, 255, 0.95); /* Lighter, more opaque modal */
+    /* backdrop-filter: blur(5px); For a slight blur behind if desired, but solid background is fine */
+    /* -webkit-backdrop-filter: blur(5px); */
+    border-radius: 16px;
+    padding: 30px 35px;
+    width: 100%;
+    max-width: 380px; /* Modal is typically smaller */
+    text-align: center;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    border: 1px solid rgba(200, 200, 200, 0.3);
+    color: #333; /* Darker text for light modal */
+}
+
+.modal-icon {
+    font-size: 3rem;
+    color: #00796b; /* Teal color for icon */
+    margin-bottom: 15px;
+}
+
+.modal-title {
+    color: #1a237e; /* Dark blueish for title */
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+}
+
+.role-options {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Space between role options */
+    margin-bottom: 30px;
+    text-align: left; /* Align role options to the left */
+}
+
+.role-option {
+    display: flex;
+    justify-content: space-between; /* Label on left, checkbox on right */
+    align-items: center;
+    padding: 10px 5px; /* Add some padding for touch targets */
+    border-bottom: 1px solid #eee; /* Separator */
+}
+.role-option:last-child {
+    border-bottom: none;
+}
+
+.role-option label {
+    font-size: 1rem;
+    color: #455a64; /* Darker gray for label */
+    font-weight: 500;
+    cursor: pointer;
+}
+
+/* Custom styled checkbox */
+.role-option input[type="checkbox"] {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #00796b; /* Teal border */
+    border-radius: 4px;
+    cursor: pointer;
+    position: relative;
+    outline: none;
+    transition: background-color 0.2s, border-color 0.2s;
+    flex-shrink: 0; /* Prevent checkbox from shrinking */
+}
+
+.role-option input[type="checkbox"]:checked {
+    background-color: #00796b; /* Teal background when checked */
+    border-color: #00796b;
+}
+
+.role-option input[type="checkbox"]:checked::before {
+    content: '\f00c'; /* Font Awesome check icon */
+    font-family: 'Font Awesome 6 Free'; /* Ensure Font Awesome is linked */
+    font-weight: 900; /* Solid check */
+    font-size: 12px;
+    color: white;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.proceed-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #00796b; /* Teal color from image */
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.proceed-button:hover {
+    background-color: #00695c; /* Darker teal */
+    transform: translateY(-2px);
+}
+
+.proceed-button:active {
+    transform: translateY(0);
+}
+
+/* Message display styling (can reuse from OTP page or define specifically) */
+.select-role-modal .message-display {
+    font-size: 0.9rem;
+    font-weight: 500;
+    min-height: 20px;
+}
+.select-role-modal .message-display.success {
+    color: #2e7d32; /* Darker green for light background */
+}
+.select-role-modal .message-display.error {
+    color: #c62828; /* Darker red for light background */
+}
+
+
+/* Responsive adjustments for the modal */
+@media (max-width: 480px) {
+    .select-role-modal {
+        padding: 25px 20px;
+        margin: 0 10px; /* Ensure some space from screen edges */
+    }
+    .modal-title {
+        font-size: 1.3rem;
+    }
+    .role-option label {
+        font-size: 0.95rem;
+    }
+    .proceed-button {
+        padding: 10px;
+        font-size: 0.95rem;
+    }
+}
