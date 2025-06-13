@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Curano - Analytics & Reports</title>
+
+    <!-- Bootstrap CSS CDN -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons CDN -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <style>
+        /* -------------------
+         * Custom Properties & Base Styles
+         * ------------------- */
+        :root {
+            --primary-color: #00BFA6;
+            --light-bg: #F7F7FA;
+            --text-dark: #212529;
+            --text-muted: #6c757d;
+            --border-color: #dee2e6;
+            --sidebar-width: 280px;
+            --success-light: #e6f7f4;
+            --danger-light: #fdeded;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--light-bg);
+            color: var(--text-dark);
+            font-size: 14px;
+        }
+
+        /* -------------------
+         * Main Layout (Sidebar + Main Content)
+         * ------------------- */
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #fff;
+            padding: 1.5rem;
+            position: fixed;
+            height: 100%;
+            left: 0;
+            top: 0;
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        .main-content {
+            margin-left: var(--sidebar-width);
+            width: calc(100% - var(--sidebar-width));
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        /* -------------------
+         * Reusable Components & Cards
+         * ------------------- */
+         .card {
+            background-color: #fff;
+            border: none;
+            border-radius: 1rem;
+            box-shadow: 0 4px_20px rgba(0, 0, 0, 0.05);
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-header, .card-footer {
+            background-color: #fff;
+            border-bottom: 1px solid var(--border-color);
+            padding: 1.25rem 1.5rem;
+        }
+
+        .card-header {
+             border-bottom: 1px solid #f0f0f0;
+             border-radius: 1rem 1rem 0 0 !important;
+        }
+
+        .card-footer {
+            border-top: 1px solid #f0f0f0;
+            border-radius: 0 0 1rem 1rem !important;
+        }
+
+        .btn-subtle {
+            background-color: #f8f9fa;
+            border-color: #dee2e6;
+            color: var(--text-dark);
+        }
+
+        .btn-subtle:hover {
+            background-color: #e9ecef;
+        }
+
+        /* -------------------
+         * Sidebar Styles
+         * ------------------- */
+        .sidebar-header .logo {
+            font-family: 'Monoton', cursive;
+            color: var(--primary-color);
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .sidebar-nav .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 1.25rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+            color: var(--text-muted);
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav .nav-link i {
+            margin-right: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .sidebar-nav .nav-link:hover {
+            background-color: #e9ecef;
+            color: var(--text-dark);
+        }
+
+        .sidebar-nav .nav-link.active {
+            background-color: var(--primary-color);
+            color: #fff;
+            box-shadow: 0 4px 10px rgba(0, 191, 166, 0.3);
+        }
+        
+        .sidebar-footer {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            right: 1.5rem;
+        }
+
+        .thoughts-bubble {
+            background-color: var(--primary-color);
+            color: #fff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            position: relative;
+        }
+
+        .thoughts-bubble::after {
+            content: '';
+            position: absolute;
+            left: 1.5rem;
+            bottom: -10px;
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 10px solid var(--primary-color);
+        }
+
+        /* -------------------
+         * Top Navbar Styles
+         * ------------------- */
+        .top-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        
+        .top-navbar .hamburger {
+            display: none;
+            font-size: 1.5rem;
+            background: none;
+            border: none;
+            color: var(--text-dark);
+        }
+
+        .search-bar {
+            position: relative;
+            width: 40%;
+        }
+
+        .search-bar .form-control {
+            border-radius: 0.5rem;
+            padding-left: 2.5rem;
+            background-color: #fff;
+        }
+
+        .search-bar i {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-muted);
+        }
+
+        .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar-right .icon-btn {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            margin-right: 1rem;
+        }
+
+        .user-profile .dropdown-toggle::after {
+            display: none;
+        }
+
+        .user-profile .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+        
+        .user-profile .user-name {
+            font-weight: 600;
+        }
+
+        /* -------------------
+         * Analytics Page Specific Styles
+         * ------------------- */
+        .page-header h1 {
+            font-weight: 700;
+            font-size: 1.75rem;
+        }
+        
+        .page-header .btn {
+            margin-left: 0.5rem;
+        }
+
+        .page-header .btn i {
+            margin-right: 0.5rem;
+        }
+        
+        .page-header .btn-primary {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        /* Chart Card */
+        .chart-card .nav-tabs {
+            border-bottom: none;
+        }
+
+        .chart-card .nav-tabs .nav-link {
+            border: none;
+            color: var(--text-muted);
+            font-weight: 500;
+            padding: 0.5rem 0;
+            margin-right: 1.5rem;
+            border-bottom: 2px solid transparent;
+        }
+
+        .chart-card .nav-tabs .nav-link.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+            background: none;
+        }
+
+        .chart-legend {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .chart-legend .legend-item {
+            display: flex;
+            align-items: center;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .chart-legend .legend-item .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-right: 0.5rem;
+        }
+
+        /* Cancer Rate Card */
+        .cancer-rate-list .list-group-item {
+            display: flex;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid #f0f0f0;
+        }
+        .cancer-rate-list .list-group-item:last-child {
+            border-bottom: none;
+        }
+        
+        .cancer-rate-list .country-flag {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            margin-right: 0.75rem;
+        }
+
+        .cancer-rate-list .progress {
+            height: 8px;
+            border-radius: 4px;
+            flex-grow: 1;
+            margin: 0 1rem;
+        }
+        
+        .cancer-rate-list .percentage {
+            font-weight: 600;
+            min-width: 60px;
+            text-align: right;
+        }
+        
+        .text-green { color: #28a745; }
+        .text-orange { color: #fd7e14; }
+        .text-red { color: #dc3545; }
+
+        /* Tables */
+        .table {
+            color: var(--text-dark);
+            font-weight: 500;
+        }
+        .table thead th {
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            border: none;
+            padding-top: 0;
+        }
+        .table tbody td {
+            vertical-align: middle;
+            border-top: 1px solid #f0f0f0;
+        }
+        .table-hover tbody tr:hover {
+            background-color: var(--light-bg);
+        }
+
+        .status-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .status-dot.available { background-color: #28a745; }
+        .status-dot.absent { background-color: #dc3545; }
+        
+        .table-actions .btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+        }
+
+        .pagination .page-item .page-link {
+            border-radius: 0.25rem;
+            margin: 0 0.2rem;
+            border: none;
+            color: var(--text-muted);
+        }
+        .pagination .page-item.active .page-link {
+            background-color: var(--primary-color);
+            color: #fff;
+            border-radius: 0.25rem;
+        }
+        
+        /* -------------------
+         * Responsive Styles
+         * ------------------- */
+        @media (max-width: 991.98px) {
+            .sidebar {
+                left: calc(-1 * var(--sidebar-width));
+            }
+            .sidebar.active {
+                left: 0;
+                box-shadow: 0 0 20px rgba(0,0,0,0.2);
+            }
+            .main-content {
+                width: 100%;
+                margin-left: 0;
+            }
+            .top-navbar .hamburger {
+                display: block;
+            }
+            .search-bar {
+                width: 50%;
+            }
+            .page-header {
+                flex-direction: column;
+                align-items: flex-start !important;
+            }
+            .page-header .btn-toolbar {
+                margin-top: 1rem;
+            }
+        }
+        @media (max-width: 767.98px) {
+            .main-content {
+                padding: 1rem;
+            }
+            .top-navbar {
+                flex-wrap: wrap;
+                margin-bottom: 1rem;
+            }
+            .search-bar {
+                width: 100%;
+                order: 3;
+                margin-top: 1rem;
+            }
+            .navbar-right {
+                order: 2;
+            }
+            .hamburger {
+                order: 1;
+            }
+            .page-header .btn-toolbar {
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+             .page-header .btn {
+                width: 100%;
+                margin-left: 0;
+             }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="wrapper">
+        <!-- =============================================== -->
+        <!-- ================== Sidebar ==================== -->
+        <!-- =============================================== -->
+        <nav class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">CURANO</div>
+            </div>
+
+            <ul class="nav flex-column sidebar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-grid-1x2-fill"></i> Dashboard</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-journal-text"></i> Cases list</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-people-fill"></i> Patient profile</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-camera-video-fill"></i> Meetings</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="#"><i class="bi bi-graph-up-arrow"></i> Analytics & Exports</a>
+                </li>
+                 <li class="nav-item">
+                    <a class="nav-link" href="#"><i class="bi bi-gear-fill"></i> Settings</a>
+                </li>
+            </ul>
+
+            <div class="sidebar-footer">
+                <div class="thoughts-bubble mb-3">
+                    <h6 class="fw-bold">Thoughts Time</h6>
+                    <p class="mb-0 small">Lorem ipsum dolor sit amet, consectetur a dveniam, quis nostrud exercitation ullamco laboris nisi.</p>
+                </div>
+                 <a class="nav-link" href="#"><i class="bi bi-box-arrow-left"></i> Logout</a>
+            </div>
+        </nav>
+
+        <!-- =============================================== -->
+        <!-- =============== Main Content ================== -->
+        <!-- =============================================== -->
+        <div class="main-content" id="main-content">
+            <!-- Top Navbar -->
+            <header class="top-navbar">
+                <button class="hamburger" id="sidebar-toggle">
+                    <i class="bi bi-list"></i>
+                </button>
+                <div class="search-bar">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control" placeholder="Search cases, patients, appointments">
+                </div>
+                <div class="navbar-right">
+                    <button class="icon-btn"><i class="bi bi-bell"></i></button>
+                    <div class="dropdown user-profile">
+                        <a href="#" class="d-flex align-items-center text-decoration-none dropdown-toggle" data-bs-toggle="dropdown">
+                            <img src="https://placehold.co/40x40/00BFA6/FFFFFF?text=M" alt="User Avatar" class="avatar">
+                            <span class="d-none d-sm-inline mx-1 user-name">Marcus Willhite</span>
+                            <i class="bi bi-chevron-down text-muted"></i>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li><a class="dropdown-item" href="#">Profile</a></li>
+                            <li><a class="dropdown-item" href="#">Settings</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Logout</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Page Content Grid -->
+            <main>
+                <!-- Page Header -->
+                <div class="d-flex justify-content-between align-items-center mb-4 page-header">
+                    <h1>Analytics & Reports</h1>
+                    <div class="btn-toolbar" role="toolbar">
+                        <button class="btn btn-primary"><i class="bi bi-lightbulb"></i> Ask AI</button>
+                        <button class="btn btn-subtle"><i class="bi bi-plus"></i> Add</button>
+                        <button class="btn btn-subtle"><i class="bi bi-pencil-square"></i> Remarks & History</button>
+                        <button class="btn btn-subtle">ECM</button>
+                        <button class="btn btn-subtle"><i class="bi bi-box-arrow-down"></i> Request Log</button>
+                        <button class="btn btn-subtle"><i class="bi bi-person-plus"></i> Assign case</button>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <!-- Left column -->
+                    <div class="col-lg-8">
+                        <!-- Chart Card -->
+                        <div class="card chart-card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <ul class="nav nav-tabs">
+                                    <li class="nav-item"><a class="nav-link active" href="#">Total Users</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Total Projects</a></li>
+                                    <li class="nav-item"><a class="nav-link" href="#">Operating Status</a></li>
+                                </ul>
+                                <div class="chart-legend">
+                                    <div class="legend-item"><span class="dot" style="background-color: #0d6efd;"></span> Current Week</div>
+                                    <div class="legend-item"><span class="dot" style="background-color: #6c757d;"></span> Previous Week</div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                <canvas id="analyticsChart" height="120"></canvas>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right column -->
+                    <div class="col-lg-4">
+                        <!-- Cancer Rate Card -->
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0 fw-bold">Cancer rate</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        Sort by: <strong>Country</strong>
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="#">By Date</a></li>
+                                        <li><a class="dropdown-item" href="#">By Rate</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="card-body cancer-rate-list">
+                                <ul class="list-group list-group-flush">
+                                    <li class="list-group-item">
+                                        <img src="https://flagcdn.com/w40/us.png" class="country-flag" alt="US Flag">
+                                        <div class="me-2"><strong>Breast</strong><br><small class="text-muted">United States</small></div>
+                                        <div class="progress"><div class="progress-bar bg-primary" style="width: 80%"></div></div>
+                                        <div class="percentage text-green"><i class="bi bi-arrow-up"></i> 25.8%</div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="https://flagcdn.com/w40/br.png" class="country-flag" alt="Brazil Flag">
+                                        <div class="me-2"><strong>Prostate</strong><br><small class="text-muted">Brazil</small></div>
+                                        <div class="progress"><div class="progress-bar bg-warning" style="width: 50%"></div></div>
+                                        <div class="percentage text-orange"><i class="bi bi-arrow-down"></i> 16.2%</div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="https://flagcdn.com/w40/in.png" class="country-flag" alt="India Flag">
+                                        <div class="me-2"><strong>Cervical</strong><br><small class="text-muted">India</small></div>
+                                        <div class="progress"><div class="progress-bar bg-primary" style="width: 80%"></div></div>
+                                        <div class="percentage text-green"><i class="bi bi-arrow-up"></i> 25.8%</div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="https://flagcdn.com/w40/au.png" class="country-flag" alt="Australia Flag">
+                                        <div class="me-2"><strong>Breast</strong><br><small class="text-muted">Australia</small></div>
+                                        <div class="progress"><div class="progress-bar bg-primary" style="width: 80%"></div></div>
+                                        <div class="percentage text-green"><i class="bi bi-arrow-up"></i> 25.8%</div>
+                                    </li>
+                                    <li class="list-group-item">
+                                        <img src="https://flagcdn.com/w40/gb.png" class="country-flag" alt="UK Flag">
+                                        <div class="me-2"><strong>30K</strong><br><small class="text-muted">United States</small></div>
+                                        <div class="progress"><div class="progress-bar bg-danger" style="width: 40%"></div></div>
+                                        <div class="percentage text-red"><i class="bi bi-arrow-down"></i> 11.9%</div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row Tables -->
+                <div class="row">
+                    <!-- Latest Case Activity Log -->
+                    <div class="col-lg-8">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                <h5 class="card-title mb-0 fw-bold">Latest case activity log</h5>
+                                <div class="input-group input-group-sm w-auto">
+                                    <span class="input-group-text bg-light border-0"><i class="bi bi-search"></i></span>
+                                    <input type="text" class="form-control bg-light border-0" placeholder="Search by case id">
+                                </div>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover mb-0">
+                                    <thead>
+                                        <tr>
+                                            <th>Patient</th><th>Case</th><th>Cancer type</th>
+                                            <th>Stage</th><th>Age</th><th>Date</th><th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Repeat for each row -->
+                                        <tr>
+                                            <td><strong>Joshua Willhite</strong></td><td>#1234</td><td>Breast</td>
+                                            <td>IIA</td><td>54</td><td>21/05/2025</td>
+                                            <td class="text-end table-actions"><button class="btn"><i class="bi bi-cloud-arrow-down"></i></button><button class="btn"><i class="bi bi-share"></i></button></td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>Joshua Willhite</strong></td><td>#1234</td><td>Cervical</td>
+                                            <td>IIA</td><td>54</td><td>21/05/2025</td>
+                                            <td class="text-end table-actions"><button class="btn"><i class="bi bi-cloud-arrow-down"></i></button><button class="btn"><i class="bi bi-share"></i></button></td>
+                                        </tr>
+                                         <tr>
+                                            <td><strong>Joshua Willhite</strong></td><td>#1234</td><td>Prostate</td>
+                                            <td>IIA</td><td>54</td><td>21/05/2025</td>
+                                            <td class="text-end table-actions"><button class="btn"><i class="bi bi-cloud-arrow-down"></i></button><button class="btn"><i class="bi bi-share"></i></button></td>
+                                        </tr>
+                                        <!-- ... other rows -->
+                                        <tr>
+                                            <td><strong>Joshua Willhite</strong></td><td>#1234</td><td>Breast</td>
+                                            <td>IIA</td><td>54</td><td>21/05/2025</td>
+                                            <td class="text-end table-actions"><button class="btn"><i class="bi bi-cloud-arrow-down"></i></button><button class="btn"><i class="bi bi-share"></i></button></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Joshua Willhite</strong></td><td>#1234</td><td>Breast</td>
+                                            <td>IIA</td><td>54</td><td>21/05/2025</td>
+                                            <td class="text-end table-actions"><button class="btn"><i class="bi bi-cloud-arrow-down"></i></button><button class="btn"><i class="bi bi-share"></i></button></td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="card-footer d-flex justify-content-between align-items-center">
+                                <span class="text-muted small">Pg 1 of 10</span>
+                                <nav>
+                                    <ul class="pagination pagination-sm mb-0">
+                                        <li class="page-item disabled"><a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a></li>
+                                        <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">4</a></li>
+                                        <li class="page-item"><a class="page-link" href="#">5</a></li>
+                                        <li class="page-item"><a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a></li>
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Top Contributors -->
+                    <div class="col-lg-4">
+                        <div class="card">
+                            <div class="card-header d-flex justify-content-between align-items-center">
+                                 <h5 class="card-title mb-0 fw-bold">Top contributors</h5>
+                                <div class="dropdown">
+                                    <button class="btn btn-sm btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                        Sort by: <strong>Doctor</strong>
+                                    </button>
+                                    <ul class="dropdown-menu dropdown-menu-end">
+                                        <li><a class="dropdown-item" href="#">By Name</a></li>
+                                        <li><a class="dropdown-item" href="#">By Status</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                             <div class="table-responsive">
+                                <table class="table mb-0">
+                                    <thead>
+                                        <tr><th>Doctors Name</th><th>Status</th></tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://placehold.co/32x32/6f42c1/FFFFFF?text=D" class="rounded-circle me-2" alt="Dr Marcus">
+                                                    <div><strong>Dr. Marcus Oris</strong><br><small class="text-muted">Medical oncologist</small></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="status-dot available"></span> Available</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://placehold.co/32x32/00BFA6/FFFFFF?text=D" class="rounded-circle me-2" alt="Dr Marcus">
+                                                    <div><strong>Dr. Marcus Oris</strong><br><small class="text-muted">Surgical oncologist</small></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="status-dot available"></span> Available</td>
+                                        </tr>
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://placehold.co/32x32/fd7e14/FFFFFF?text=D" class="rounded-circle me-2" alt="Dr Marcus">
+                                                    <div><strong>Dr. Marcus Oris</strong><br><small class="text-muted">Radiation oncologist</small></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="status-dot absent"></span> Absent</td>
+                                        </tr>
+                                         <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    <img src="https://placehold.co/32x32/dc3545/FFFFFF?text=D" class="rounded-circle me-2" alt="Dr Marcus">
+                                                    <div><strong>Dr. Marcus Oris</strong><br><small class="text-muted">Hematologist</small></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="status-dot absent"></span> Absent</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS Bundle CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript for interactivity -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // --- Sidebar Toggle ---
+            const sidebar = document.getElementById('sidebar');
+            const sidebarToggle = document.getElementById('sidebar-toggle');
+            const mainContent = document.getElementById('main-content');
+            
+            if (sidebarToggle) {
+                sidebarToggle.addEventListener('click', function() {
+                    sidebar.classList.toggle('active');
+                });
+            }
+
+            // --- Chart.js Implementation ---
+            const ctx = document.getElementById('analyticsChart');
+            if(ctx) {
+                // Custom plugin to draw the circle and annotation on the point
+                const pointAnnotationPlugin = {
+                    id: 'pointAnnotation',
+                    afterDraw: chart => {
+                        const activePoint = chart.getDatasetMeta(0).data[2]; // Target the 3rd point (index 2 for 'Mar')
+                        if (activePoint) {
+                            const { x, y } = activePoint.getProps(['x', 'y']);
+                            const ctx = chart.ctx;
+                            
+                            // Draw outer circle
+                            ctx.beginPath();
+                            ctx.arc(x, y, 10, 0, 2 * Math.PI, false);
+                            ctx.fillStyle = 'rgba(0, 191, 166, 0.2)';
+                            ctx.fill();
+
+                            // Draw inner circle
+                            ctx.beginPath();
+                            ctx.arc(x, y, 5, 0, 2 * Math.PI, false);
+                            ctx.fillStyle = '#00BFA6';
+                            ctx.fill();
+
+                            // Draw the annotation box
+                            const text = '1,256,599';
+                            ctx.font = 'bold 12px Inter';
+                            const textWidth = ctx.measureText(text).width;
+                            const boxX = x - (textWidth / 2) - 10;
+                            const boxY = y - 40;
+                            const boxWidth = textWidth + 20;
+                            const boxHeight = 25;
+                            
+                            ctx.fillStyle = '#212529';
+                            ctx.roundRect(boxX, boxY, boxWidth, boxHeight, 5);
+                            ctx.fill();
+
+                            // Draw triangle pointer
+                            ctx.beginPath();
+                            ctx.moveTo(x - 5, y - 15);
+                            ctx.lineTo(x + 5, y - 15);
+                            ctx.lineTo(x, y - 10);
+                            ctx.closePath();
+                            ctx.fill();
+
+                            // Draw text
+                            ctx.fillStyle = '#fff';
+                            ctx.textAlign = 'center';
+                            ctx.fillText(text, x, y - 24);
+                        }
+                    }
+                };
+                
+                // Polyfill for roundRect if not available
+                if (!CanvasRenderingContext2D.prototype.roundRect) {
+                  CanvasRenderingContext2D.prototype.roundRect = function(x, y, w, h, r) {
+                    if (w < 2 * r) r = w / 2;
+                    if (h < 2 * r) r = h / 2;
+                    this.beginPath();
+                    this.moveTo(x + r, y);
+                    this.arcTo(x + w, y, x + w, y + h, r);
+                    this.arcTo(x + w, y + h, x, y + h, r);
+                    this.arcTo(x, y + h, x, y, r);
+                    this.arcTo(x, y, x + w, y, r);
+                    this.closePath();
+                    return this;
+                  }
+                }
+
+
+                new Chart(ctx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                        datasets: [
+                        {
+                            label: 'Current Week',
+                            data: [10, 12, 18, 15, 20, 18, 22],
+                            borderColor: '#0d6efd',
+                            borderWidth: 3,
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#0d6efd',
+                        },
+                        {
+                            label: 'Previous Week',
+                            data: [8, 10, 12, 14, 16, 19, 21],
+                            borderColor: '#6c757d',
+                            borderWidth: 3,
+                            borderDash: [5, 5],
+                            fill: false,
+                            tension: 0.4,
+                            pointRadius: 0,
+                            pointHoverRadius: 6,
+                            pointBackgroundColor: '#6c757d',
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: true,
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            tooltip: {
+                                enabled: false // Disable default tooltip to use custom annotation
+                            },
+                            pointAnnotation: {} // Enable our custom plugin
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    stepSize: 10,
+                                    callback: function(value) {
+                                        return value + 'M';
+                                    }
+                                },
+                                grid: {
+                                    drawBorder: false,
+                                    color: '#f0f0f0'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    },
+                    plugins: [pointAnnotationPlugin]
+                });
+            }
+        });
+    </script>
+</body>
+</html>
