@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CURANO - AI-Powered Cancer Registry</title>
+    <!-- Cases-list page styles -->
+    <link rel="stylesheet" href="./style/cases-list.css">
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Bootstrap Icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.0/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Monoton&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="d-flex justify-content-between align-items-center w-100">
+            <div class="d-flex align-items-center">
+                <button class="btn d-md-none me-2" id="sidebarToggle">
+                    <i class="bi bi-list"></i>
+                </button>
+                <a href="#" class="logo">CURANO</a>
+                <span class="header-title d-none d-md-inline">AI-Powered cancer registry</span>
+            </div>
+            
+            <div class="search-bar d-none d-md-block">
+                <div class="position-relative">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control" placeholder="Search cases, patients, appointments">
+                </div>
+            </div>
+            
+            <div class="user-profile">
+                <i class="bi bi-bell text-muted"></i>
+                <div class="user-avatar"></div>
+                <span class="fw-medium d-none d-md-inline">Marcus Willhite</span>
+                <i class="bi bi-chevron-down text-muted d-none d-md-inline"></i>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="sidebar-menu">
+            <li><a href="./dashboard.html"><i class="bi bi-grid-3x3-gap"></i> Dashboard</a></li>
+            <li><a href="#" class="active"><i class="bi bi-folder"></i> Cases list</a></li>
+            <li><a href="./patient-profile.html"><i class="bi bi-person"></i> Patient profile</a></li>
+            <li><a href="./meetings.html"><i class="bi bi-mic"></i> Meetings</a></li>
+            <li><a href="./analytics.html"><i class="bi bi-bar-chart"></i> Analytics & Exports</a></li>
+            <li><a href="./settings.html"><i class="bi bi-gear"></i> Settings</a></li>
+            <li><a href="./index.html"><i class="bi bi-box-arrow-right"></i> Logout</a></li>
+        </ul>
+        
+        <div class="thoughts-widget">
+            <i class="bi bi-lightbulb"></i>
+            <h4>Thoughts Time</h4>
+            <p>Lorem ipsum dolor sit amet, consectetur a dveniam, quis nostrud exercitation ullamco laboris nis</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="case-header">
+            <h1>Case list</h1>
+            <div class="d-flex gap-3 align-items-center">
+                <button class="ai-transcribe-btn">
+                    <i class="bi bi-waveform"></i>
+                    Ask AI-Transcribing
+                </button>
+                <div class="search-case position-relative">
+                    <i class="bi bi-search"></i>
+                    <input type="text" class="form-control" placeholder="Search by case id">
+                </div>
+            </div>
+        </div>
+
+        <div class="case-table">
+            <div class="table-responsive">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>PATIENT</th>
+                            <th>CASE</th>
+                            <th>CANCER TYPE</th>
+                            <th>STAGE</th>
+                            <th>AGE</th>
+                            <th>DATE</th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Joshua Willhite</td>
+                            <td class="case-id">#1234</td>
+                            <td>Breast</td>
+                            <td><span class="stage-badge">IIA</span></td>
+                            <td>54</td>
+                            <td>21/05/2025</td>
+                            <td><button class="expand-btn" onclick="toggleRow(this)"><i class="bi bi-chevron-right"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>Joshua Willhite</td>
+                            <td class="case-id">#1234</td>
+                            <td>Breast</td>
+                            <td><span class="stage-badge">IIA</span></td>
+                            <td>54</td>
+                            <td>21/05/2025</td>
+                            <td><button class="expand-btn" onclick="toggleRow(this)"><i class="bi bi-chevron-right"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>Joshua Willhite</td>
+                            <td class="case-id">#1234</td>
+                            <td>Breast</td>
+                            <td><span class="stage-badge">IIA</span></td>
+                            <td>54</td>
+                            <td>21/05/2025</td>
+                            <td><button class="expand-btn" onclick="toggleRow(this)"><i class="bi bi-chevron-right"></i></button></td>
+                        </tr>
+                        <tr class="expanded">
+                            <td>Joshua Willhite</td>
+                            <td class="case-id">#1234</td>
+                            <td>Breast</td>
+                            <td><span class="stage-badge">IIA</span></td>
+                            <td>54</td>
+                            <td>21/05/2025</td>
+                            <td><button class="expand-btn" onclick="toggleRow(this)"><i class="bi bi-chevron-down"></i></button></td>
+                        </tr>
+                        <tr class="expanded-content">
+                            <td colspan="7" class="expanded-content">
+                                <div class="expanded-inner">
+                                    <div class="expanded-section">
+                                        <h4>Structured patient data</h4>
+                                        <div class="patient-info">
+                                            <div class="patient-info-row">
+                                                <span class="patient-info-label">Name</span>
+                                                <span class="patient-info-value">Joshua Willhite</span>
+                                            </div>
+                                            <div class="patient-info-row">
+                                                <span class="patient-info-label"></span>
+                                                <span class="patient-info-value" style="font-size: 12px; color: var(--text-secondary);">joshua1234@gmail.com</span>
+                                            </div>
+                                            <div class="patient-info-row">
+                                                <span class="patient-info-label">Age</span>
+                                                <span class="patient-info-value">54</span>
+                                            </div>
+                                            <div class="patient-info-row">
+                                                <span class="patient-info-label">Diagnosis</span>
+                                                <span class="patient-info-value">Breast cancer</span>
+                                            </div>
+                                            <div class="patient-info-row">
+                                                <span class="patient-info-label">Stage</span>
+                                                <span class="patient-info-value">s IIA</span>
+                                            </div>
+                                            <div class="patient-info-row">
+                                                <span class="patient-info-label">ER Status</span>
+                                                <span class="patient-info-value status-positive">Positive</span>
+                                            </div>
+                                            <div class="patient-info-row">
+                                                <span class="patient-info-label">Surgery</span>
+                                                <span class="patient-info-value status-pending">Pending</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="expanded-section">
+                                        <h4>Clinical data</h4>
+                                        <p class="clinical-text">Patient presented with stage 2 breast cancer. Biopsy confirmed lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</p>
+                                    </div>
+                                    <div class="expanded-section">
+                                        <h4>Suggested treatment</h4>
+                                        <p class="clinical-text">Patient presented with stage 2 breast cancer. Biopsy confirmed lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum lorem ipsum</p>
+                                        <div class="action-buttons">
+                                            <a href="#" class="action-btn">
+                                                <i class="bi bi-plus"></i>
+                                                Add
+                                            </a>
+                                            <a href="#" class="action-btn">
+                                                <i class="bi bi-pencil"></i>
+                                                Edit
+                                            </a>
+                                            <a href="#" class="action-btn">
+                                                <i class="bi bi-download"></i>
+                                                Exports
+                                            </a>
+                                            <a href="#" class="action-btn">
+                                                <i class="bi bi-share"></i>
+                                                Share
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Joshua Willhite</td>
+                            <td class="case-id">#1234</td>
+                            <td>Breast</td>
+                            <td><span class="stage-badge">IIA</span></td>
+                            <td>54</td>
+                            <td>21/05/2025</td>
+                            <td><button class="expand-btn" onclick="toggleRow(this)"><i class="bi bi-chevron-right"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>Joshua Willhite</td>
+                            <td class="case-id">#1234</td>
+                            <td>Breast</td>
+                            <td><span class="stage-badge">IIA</span></td>
+                            <td>54</td>
+                            <td>21/05/2025</td>
+                            <td><button class="expand-btn" onclick="toggleRow(this)"><i class="bi bi-chevron-right"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>Joshua Willhite</td>
+                            <td class="case-id">#1234</td>
+                            <td>Breast</td>
+                            <td><span class="stage-badge">IIA</span></td>
+                            <td>54</td>
+                            <td>21/05/2025</td>
+                            <td><button class="expand-btn" onclick="toggleRow(this)"><i class="bi bi-chevron-right"></i></button></td>
+                        </tr>
+                        <tr>
+                            <td>Joshua Willhite</td>
+                            <td class="case-id">#1234</td>
+                            <td>Breast</td>
+                            <td><span class="stage-badge">IIA</span></td>
+                            <td>54</td>
+                            <td>21/05/2025</td>
+                            <td><button class="expand-btn" onclick="toggleRow(this)"><i class="bi bi-chevron-right"></i></button></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="pagination-wrapper">
+                <div class="showing-text">
+                    Showing 
+                    <select class="border-0 bg-transparent">
+                        <option>10</option>
+                        <option>25</option>
+                        <option>50</option>
+                    </select>
+                    of 50
+                </div>
+                <nav>
+                    <ul class="pagination">
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="bi bi-chevron-left"></i></a>
+                        </li>
+                        <li class="page-item active">
+                            <a class="page-link" href="#">1</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">2</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">3</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">4</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#">5</a>
+                        </li>
+                        <li class="page-item">
+                            <a class="page-link" href="#"><i class="bi bi-chevron-right"></i></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+    
+    <script src="./script/cases-list.js"></script>
+</body>
+</html>

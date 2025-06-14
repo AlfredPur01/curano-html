@@ -1,0 +1,532 @@
+/* -------------------
+    * Custom Properties & Base Styles
+    * ------------------- */
+:root {
+    --primary-color: #1b9695;
+    --light-bg: #F8F9FA;
+    --text-dark: #2d3436;
+    --text-muted: #6c757d;
+    --border-color: #dee2e6;
+    --sidebar-width: 280px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--light-bg);
+    color: var(--text-dark);
+}
+
+/* -------------------
+    * Main Layout (Sidebar + Main Content)
+    * ------------------- */
+.wrapper {
+    display: flex;
+    min-height: 100vh;
+}
+
+.sidebar {
+    width: var(--sidebar-width);
+    background-color: #fff;
+    padding: 1.5rem;
+    position: fixed;
+    height: 100%;
+    left: 0;
+    top: 0;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+.main-content {
+    margin-left: var(--sidebar-width);
+    width: calc(100% - var(--sidebar-width));
+    padding: 2rem;
+    transition: all 0.3s ease;
+}
+
+/* -------------------
+    * Sidebar Styles
+    * ------------------- */
+.sidebar-header .logo {
+    font-family: 'Monoton', cursive;
+    color: var(--primary-color);
+    font-size: 2.5rem;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.sidebar-nav .nav-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1.25rem;
+    margin-bottom: 0.5rem;
+    border-radius: 0.5rem;
+    color: var(--text-muted);
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.sidebar-nav .nav-link i {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.sidebar-nav .nav-link:hover {
+    background-color: #e9ecef;
+    color: var(--text-dark);
+}
+
+.sidebar-nav .nav-link.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 191, 166, 0.3);
+}
+
+.sidebar-footer {
+    position: absolute;
+    bottom: 1rem;
+    left: 1.5rem;
+    right: 1.5rem;
+}
+
+/* -------------------
+    * Top Navbar Styles
+    * ------------------- */
+.top-navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+}
+
+.top-navbar .hamburger {
+    display: none;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    color: var(--text-dark);
+}
+
+.search-bar {
+    position: relative;
+    width: 40%;
+}
+
+.search-bar .form-control {
+    border-radius: 0.5rem;
+    padding-left: 2.5rem;
+    background-color: #fff;
+}
+
+.search-bar i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+}
+
+.navbar-right .icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    color: var(--text-muted);
+    margin-right: 1rem;
+}
+
+.user-profile .dropdown-toggle::after {
+    display: none;
+}
+
+.user-profile .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 0.5rem;
+}
+
+.user-profile .user-name {
+    font-weight: 600;
+}
+
+/* -------------------
+    * Main Content Cards & Components
+    * ------------------- */
+.card {
+    background-color: #fff;
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+.main-col-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+}
+
+.main-col-header h1 {
+    font-weight: 700;
+    font-size: 1.75rem;
+}
+
+.ai-assistant {
+    display: flex;
+    align-items: center;
+    background-color: #f0fdfa;
+    padding: 0.5rem 1rem;
+    border-radius: 0.75rem;
+}
+
+.ai-assistant .badge {
+    margin-right: 0.5rem;
+}
+
+.ai-assistant .sound-wave {
+    display: flex;
+    align-items: center;
+    height: 20px;
+    margin: 0 0.5rem;
+}
+
+.sound-wave span {
+    display: block;
+    width: 3px;
+    margin: 0 1px;
+    background-color: var(--primary-color);
+    animation: sound 1.2s infinite ease-in-out;
+}
+/* Animation for the sound wave */
+@keyframes sound {
+    0%, 100% { transform: scaleY(0.1); }
+    50% { transform: scaleY(1); }
+}
+.sound-wave span:nth-child(1) { height: 10px; animation-delay: 0s; }
+.sound-wave span:nth-child(2) { height: 18px; animation-delay: 0.1s; }
+.sound-wave span:nth-child(3) { height: 14px; animation-delay: 0.2s; }
+.sound-wave span:nth-child(4) { height: 20px; animation-delay: 0.3s; }
+.sound-wave span:nth-child(5) { height: 16px; animation-delay: 0.4s; }
+
+
+/* Video Call Panel */
+.video-call-panel {
+    position: relative;
+    border-radius: 1rem;
+    overflow: hidden;
+    background-color: #000;
+}
+
+.video-call-panel .main-video {
+    width: 100%;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+}
+
+.video-call-panel .self-view {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 25%;
+    max-width: 150px;
+    border-radius: 0.75rem;
+    border: 2px solid #fff;
+    aspect-ratio: 4/3;
+    object-fit: cover;
+}
+
+.video-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: linear-gradient(to top, rgba(0,0,0,0.7), transparent);
+    color: #fff;
+}
+
+.video-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.participant-info {
+    font-weight: 600;
+}
+
+.control-buttons {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.control-buttons .btn {
+    background-color: rgba(255,255,255,0.2);
+    color: #fff;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s;
+}
+.control-buttons .btn:hover {
+    background-color: rgba(255,255,255,0.3);
+}
+.control-buttons .btn.btn-danger {
+    background-color: #dc3545;
+}
+
+/* Chat Panel */
+.chat-panel .card-body {
+    padding: 0;
+}
+
+.chat-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.chat-user-info .avatar {
+    width: 40px;
+    height: 40px;
+}
+
+.chat-user-info .user-name {
+    font-weight: 600;
+}
+.chat-user-info .status {
+    font-size: 0.8rem;
+    color: var(--primary-color);
+}
+
+.chat-messages {
+    padding: 1.5rem;
+    height: 250px;
+    overflow-y: auto;
+}
+
+.chat-message {
+    display: flex;
+    margin-bottom: 1rem;
+}
+
+.chat-message .avatar {
+    width: 35px;
+    height: 35px;
+    margin-right: 0.75rem;
+}
+
+.message-content {
+    background-color: #f1f1f1;
+    padding: 0.75rem;
+    border-radius: 0.75rem;
+    max-width: 80%;
+}
+
+.message-content p {
+    margin-bottom: 0.25rem;
+}
+
+.message-content .time {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    text-align: right;
+}
+
+.message-content .time i {
+    color: #4fc3f7; /* Double tick color */
+    font-size: 1rem;
+}
+
+.chat-input {
+    padding: 1rem 1.5rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.chat-input .input-group .form-control {
+    border-radius: 2rem 0 0 2rem;
+    border-right: 0;
+    background-color: #f1f1f1;
+    border-color: #f1f1f1;
+}
+
+.chat-input .input-group .btn {
+    border-radius: 0 2rem 2rem 0;
+    background-color: #f1f1f1;
+    border-color: #f1f1f1;
+    color: var(--text-muted);
+}
+.chat-input .input-group .btn-send {
+    background-color: var(--primary-color);
+    color: #fff;
+}
+
+.thoughts-bubble {
+    background-color: var(--primary-color);
+    color: #fff;
+    padding: 1rem;
+    border-radius: 1rem;
+    position: relative;
+}
+
+.thoughts-bubble::after {
+    content: '';
+    position: absolute;
+    left: 1rem;
+    bottom: -10px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid var(--primary-color);
+}
+
+/* Right Sidebar Column */
+.right-col .search-bar .form-control {
+    border-radius: 0.5rem;
+}
+
+.right-col .list-group-item {
+    border: none;
+    padding: 1rem 0;
+    display: flex;
+    align-items: center;
+}
+
+.right-col .list-group-item .icon-wrapper {
+    width: 40px;
+    height: 40px;
+    background-color: #e9ecef;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+}
+
+.right-col .list-group-item .bi-bell {
+        color: var(--primary-color);
+}
+
+.right-col .list-group-item .bi-calendar-check {
+        color: #6f42c1;
+}
+
+.right-col .list-group-item p {
+    margin: 0;
+    font-weight: 500;
+}
+
+.right-col .list-group-item small {
+    color: var(--text-muted);
+}
+
+/* Calendar */
+.calendar-card .card-body {
+    padding: 1.5rem;
+}
+
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.calendar-header h6 {
+    font-weight: 600;
+    margin: 0;
+}
+.calendar-nav .btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+}
+
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    gap: 0.5rem;
+}
+.calendar-grid div {
+    padding: 0.25rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+.calendar-grid .day-name {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.calendar-grid .day-number.active {
+    background-color: var(--primary-color);
+    color: #fff;
+    border-radius: 50%;
+}
+
+
+/* -------------------
+    * Responsive Styles
+    * ------------------- */
+@media (max-width: 991.98px) {
+    .sidebar {
+        left: calc(-1 * var(--sidebar-width));
+    }
+    .sidebar.active {
+        left: 0;
+        box-shadow: 0 0 20px rgba(0,0,0,0.2);
+    }
+    .main-content {
+        width: 100%;
+        margin-left: 0;
+    }
+    .top-navbar .hamburger {
+        display: block;
+    }
+    .search-bar {
+        width: 50%;
+    }
+}
+@media (max-width: 767.98px) {
+    .main-content {
+        padding: 1rem;
+    }
+    .top-navbar {
+        flex-wrap: wrap;
+        margin-bottom: 1rem;
+    }
+    .search-bar {
+        width: 100%;
+        order: 3;
+        margin-top: 1rem;
+    }
+    .navbar-right {
+        order: 2;
+    }
+    .hamburger {
+        order: 1;
+    }
+        .main-col-header h1 {
+        font-size: 1.5rem;
+    }
+    .ai-assistant {
+        display: none; /* Hide for simplicity on mobile */
+    }
+}
