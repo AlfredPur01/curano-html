@@ -46,19 +46,19 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // In a real application, you would navigate or perform an action here
         // For example:
-        // setTimeout(() => {
-        //     window.location.href = 'dashboard.html?roles=' + selectedRoles.join(',');
-        // }, 1000);
+        setTimeout(() => {
+            window.location.href = 'dashboard.html?roles=' + selectedRoles.join(',');
+        }, 1000);
         
         // For now, just disable the button to indicate action taken
-        proceedButton.disabled = true;
-        proceedButton.textContent = 'Processing...';
-        setTimeout(() => {
-            // Simulate completion
-            proceedButton.disabled = false;
-            proceedButton.textContent = 'Proceed';
-            // You might redirect or update UI further here
-        }, 2000);
+        // proceedButton.disabled = true;
+        // proceedButton.textContent = 'Processing...';
+        // setTimeout(() => {
+        //     // Simulate completion
+        //     proceedButton.disabled = false;
+        //     proceedButton.textContent = 'Proceed';
+        //     // You might redirect or update UI further here
+        // }, 2000);
 
 
     });
